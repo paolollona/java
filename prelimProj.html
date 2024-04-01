@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HERO VELLAIN GENERATOR</title>
+
+<style>
+    .header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; 
+    color: whitesmoke;
+}
+    #image {
+        max-width:  400px;
+        max-height:  400px;
+    }
+    #display-container {
+        display: flex;
+        justify-content: space-between; 
+        width:  100%; 
+    }
+    #display1, #display2 {
+        width:  45%;
+        text-align: center; 
+    }
+    #name1, #name2 {
+        color: white;
+    }
+    button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 12px;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Adjust the height as needed */
+    }
+    body {
+        background-image: url('https://media.giphy.com/media/NKEt9elQ5cR68/giphy.gif');
+        background-size: cover;
+        background-position: center;
+    }
+    #display1 img {
+        border-radius:  75%; /* Adjust the percentage as needed to get the desired roundness */
+        border: 10px solid #1500ff;
+    }
+    #display2 img {
+        border-radius:  75%; /* Adjust the percentage as needed to get the desired roundness */
+        border: 10px solid #ff0000;
+    }
+    #hoverTextContainer {
+    display: none;
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+</style>
+</head>
+<body>
+    <div class="header-container">
+    <h1>Hero Vellain Generator</h1>
+    </div>
+    <div id="display-container">
+        <div id="display1">
+            <img id="hero1" src="question.png" alt="Hero 1">
+            <p id="name1">HERO</p>
+            <p id="disc1"></p> <!-- Element to display the disc of the first hero -->
+        </div>
+        <div id="display2">
+            <img id="vellain" src="question.png" alt="Hero 2">
+            <p id="name2">VELLAIN</p>
+            <p id="disc2"></p> <!-- Element to display the disc of the second hero -->
+        </div>
+    </div>
+    <div class="button-container">
+    <button onclick="displayHeroes();">Generate</button>
+    <button id="redirectButton">Go to Quiz</button>
+    </div>
+    <div id="hoverTextContainer" style="display: none; position: absolute; background-color: rgba(0,0,0,0.5); color: white; padding: 10px; border-radius: 5px;">
+        Hover Text Here
+    </div>
+    <script>
+        const heroes = [
+            {src: "superman.jpg", name: "Super Man", disc:"Marvel", question:""},
+            {src: "batman.jpg", name: "Bat Man",disc:"Marvel", question:""},
+            {src: "luffy.jpg", name: "Luffy",disc:"Anime", question:""},
+        ];
+
+        const vellain = [
+            {src: "joker.jpg", name: "Joker",disc:"Marvel", question:""},
+            {src: "greengoblin.jpg", name: "Green Goblin",disc:"Marvel", question:""},
+            {src: "bigmom.jpg", name: "Big Mom",disc:"Anime", question:""},
+        ];
+
+        function displayHeroes() {
+            const hero1Element = document.getElementById('hero1');
+            const name1Element = document.getElementById('name1');
+            const disc1Element = document.getElementById('disc1');
+            const hero2Element = document.getElementById('vellain'); 
+            const name2Element = document.getElementById('name2');
+
+            const randomIndex1 = Math.floor(Math.random() * heroes.length);
+            hero1Element.src = heroes[randomIndex1].src;
+            name1Element.textContent = heroes[randomIndex1].name;
+            localStorage.setItem('selectedHero1', heroes[randomIndex1].name); // Store selected hero 1 name
+
+            const randomIndex2 = Math.floor(Math.random() * vellain.length);
+            hero2Element.src = vellain[randomIndex2].src;
+            name2Element.textContent = vellain[randomIndex2].name;
+            localStorage.setItem('selectedHero2', vellain[randomIndex2].name); // Store selected hero 2 name
+        }
+    </script>
+    <script>
+        function positionHoverText(event) {
+            const hoverTextContainer = document.getElementById('hoverTextContainer');
+            const rect = event.target.getBoundingClientRect();
+            hoverTextContainer.style.top = `${rect.bottom}px`;
+            hoverTextContainer.style.left = `${rect.left}px`;
+        }
+
+        document.getElementById('hero1').addEventListener('mouseover', function(event) {
+            document.getElementById('hoverTextContainer').style.display = 'block';
+            document.getElementById('hoverTextContainer').textContent = ` ${currentHero1Disc}`;
+            positionHoverText(event);
+        });
+
+        document.getElementById('vellain').addEventListener('mouseover', function(event) {
+            document.getElementById('hoverTextContainer').style.display = 'block';
+            document.getElementById('hoverTextContainer').textContent = ` ${currentVellainDisc}`;
+            positionHoverText(event);
+        });
+
+        document.getElementById('hero1').addEventListener('mouseout', function() {
+            document.getElementById('hoverTextContainer').style.display = 'none';
+        });
+
+        document.getElementById('vellain').addEventListener('mouseout', function() {
+            document.getElementById('hoverTextContainer').style.display = 'none';
+        });
+
+        document.getElementById('redirectButton').addEventListener('click', function() {
+            const midtermUrl = 'midterm.html?hero1=' + encodeURIComponent(localStorage.getItem('selectedHero1')) + '&hero2=' + encodeURIComponent(localStorage.getItem('selectedHero2'));
+            window.location.href = midtermUrl;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Quiz</title>
+    
+    <style>
+    #quiz {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 5px solid #000000;
+        border-radius: 5px;
+        background-color: #099ff0;
+    }
+    body {
+        background-image: url('https://media.giphy.com/media/NKEt9elQ5cR68/giphy.gif');
+        background-size: cover;
+        background-position: center;
+    }
+    
+    /* Styling for the quiz title */
+    #quiz h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    /* Styling for the quiz questions */
+    label {
+        font-weight: bold;
+    }
+    
+    /* Styling for the answer choices */
+    input[type="radio"] {
+        margin-bottom: 10px;
+    }
+    
+    /* Styling for the submit button */
+    input[type="submit"] {
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+    }
+    
+    /* Styling for the result message */
+    #result {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+
+</head>
+<body>
+    <div id="quiz">
+        <h2>Quiz</h2>
+        <form id="quiz-form">
+            <label>1. Who is the hero?</label><br>
+            <input type="text" name="q1" placeholder="Your answer"><br><br>
+            
+            <label>2. Who is Vellaine?</label><br>
+            <input type="text" name="q2" placeholder="Your answer"><br><br>
+            
+            <input type="submit" value="Submit">
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        
+        // Get query parameters
+function getQueryParam(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+        }
+        
+        const hero1Name = getQueryParam('hero1');
+        const hero2Name = getQueryParam('hero2');
+        
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            var answers = {
+                q1: hero1Name, // Correct answer for question 1
+                q2: hero2Name // Correct answer for question 2
+            };
+           // Calculate score
+           var score = 0;
+            for (var key in answers) {
+                var userAnswer = document.querySelector('input[name="' + key + '"]').value.trim().toLowerCase();
+                if (userAnswer === answers[key].toLowerCase()) {
+                    score++;
+                }
+            }
+        
+            
+            // Display result
+            var resultElement = document.getElementById('result');
+            resultElement.innerHTML = 'You scored ' + score + ' out of ' + answers.length;
+        });
+        </script>
+        
+</body>
+</html>
